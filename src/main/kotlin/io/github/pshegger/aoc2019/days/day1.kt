@@ -1,4 +1,7 @@
-package io.github.pshegger.aoc2019
+package io.github.pshegger.aoc2019.days
+
+import io.github.pshegger.aoc2019.Answer
+import io.github.pshegger.aoc2019.InputReader
 
 fun day1() : Answer {
     val lines = InputReader.read("day1.txt") {
