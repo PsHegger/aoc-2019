@@ -6,3 +6,4 @@ This repository contains my solutions for the 2019 Advent of Code challenge. It 
 
 - [Day 1: The Tyranny of the Rocket Equation](tasks/day1.md)
 - [Day 2: 1202 Program Alarm](tasks/day2.md)
+- [Day 3: Crossed Wires](tasks/day3.md)

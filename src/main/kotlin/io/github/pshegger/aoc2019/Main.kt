@@ -2,12 +2,14 @@ package io.github.pshegger.aoc2019
 
 import io.github.pshegger.aoc2019.days.day1
 import io.github.pshegger.aoc2019.days.day2
+import io.github.pshegger.aoc2019.days.day3
 
 object Main {
 
     private val DAY_MAPPING = mapOf<Int, () -> Answer>(
         1 to ::day1,
-        2 to ::day2
+        2 to ::day2,
+        3 to ::day3
     )
 
     @JvmStatic
