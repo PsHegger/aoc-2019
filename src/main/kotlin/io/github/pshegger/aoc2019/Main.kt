@@ -8,7 +8,8 @@ object Main {
         1 to ::day1,
         2 to ::day2,
         3 to ::day3,
-        4 to ::day4
+        4 to ::day4,
+        5 to ::day5
     )
 
     @JvmStatic

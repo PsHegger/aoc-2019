@@ -1,6 +1,8 @@
 package io.github.pshegger.aoc2019.days
 
 import io.github.pshegger.aoc2019.Answer
+import io.github.pshegger.aoc2019.utils.digitCount
+import io.github.pshegger.aoc2019.utils.toDigits
 
 private typealias NumberValidator = (Int) -> Boolean
 
@@ -50,11 +52,3 @@ private val nonGroupedAdjacencyValidator = { number: Int ->
     }
     groups.any { it.count == 2 }
 }
-
-private fun Int.digitCount() =
-    generateSequence(1) { it * 10 }
-        .map { this % it }
-        .takeWhile { it != this }
-        .count()
-
-private fun Int.toDigits(): List<Int> = toString().map { it.toInt() - 48 }.reversed()
