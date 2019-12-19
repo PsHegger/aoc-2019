@@ -9,3 +9,4 @@ This repository contains my solutions for the 2019 Advent of Code challenge. It 
 - [Day 3: Crossed Wires](tasks/day3.md)
 - [Day 4: Secure Container](tasks/day4.md)
 - [Day 5: Sunny with a Chance of Asteroids](tasks/day5.md)
+- [Day 6: Universal Orbit Map](tasks/day6.md)
