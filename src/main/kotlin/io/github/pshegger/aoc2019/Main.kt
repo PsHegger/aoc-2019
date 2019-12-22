@@ -7,7 +7,7 @@ object Main {
     private val DAY_MAPPING = mapOf<Int, () -> Answer>(
         1 to ::day1, 2 to ::day2, 3 to ::day3,
         4 to ::day4, 5 to ::day5, 6 to ::day6,
-        7 to ::day7
+        7 to ::day7, 8 to ::day8
     )
 
     @JvmStatic

@@ -11,3 +11,4 @@ This repository contains my solutions for the 2019 Advent of Code challenge. It 
 - [Day 5: Sunny with a Chance of Asteroids](tasks/day5.md)
 - [Day 6: Universal Orbit Map](tasks/day6.md)
 - [Day 7: Amplification Circuit](tasks/day7.md)
+- [Day 8: Space Image Format](tasks/day8.md)
