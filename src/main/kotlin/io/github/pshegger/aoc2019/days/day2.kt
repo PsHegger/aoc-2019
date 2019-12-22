@@ -2,7 +2,7 @@ package io.github.pshegger.aoc2019.days
 
 import io.github.pshegger.aoc2019.Answer
 import io.github.pshegger.aoc2019.InputReader
-import io.github.pshegger.aoc2019.evalProgram
+import io.github.pshegger.aoc2019.runProgram
 import io.github.pshegger.aoc2019.utils.withUpdatedValue
 
 fun day2(): Answer {
@@ -11,7 +11,7 @@ fun day2(): Answer {
     }
 
     val program = input.updateWithParameters(12, 2)
-    val result = evalProgram(program)
+    val result = runProgram(program)
     val (noun, verb) = findParameters(input, 19690720)
 
     return Answer.Full(result[0], 100 * noun + verb)
@@ -21,7 +21,7 @@ private fun findParameters(input: List<Int>, targetResult: Int): Pair<Int, Int> 
     for (noun in (0..99)) {
         for (verb in (0..99)) {
             val program = input.updateWithParameters(noun, verb)
-            val result = evalProgram(program)[0]
+            val result = runProgram(program)[0]
             if (result == targetResult) {
                 return Pair(noun, verb)
             }

@@ -3,18 +3,20 @@ package io.github.pshegger.aoc2019
 import io.github.pshegger.aoc2019.utils.withUpdatedValue
 import kotlin.math.pow
 
-fun evalProgram(program: List<Int>, inputs: List<Int> = emptyList()): ProgramState {
-    tailrec fun go(state: ProgramState): ProgramState {
-        if (state.terminated) {
-            return state
-        }
+fun runProgram(program: List<Int>, inputs: List<Int> = emptyList()) =
+    evalProgram(ProgramState(program, 0, inputs, emptyList()))
 
-        val operator = OPERATORS.firstOrNull { it.opCode == state.opCode }
-            ?: throw UnknownOperatorException(state.opCode, state.pc)
-        return go(operator(state))
+fun ProgramState.resume(inputs: List<Int>) =
+    evalProgram(copy(inputs = this.inputs + inputs, status = ProgramStatus.Running))
+
+private tailrec fun evalProgram(state: ProgramState): ProgramState {
+    if (state.status != ProgramStatus.Running) {
+        return state
     }
 
-    return go(ProgramState(program, 0, inputs, emptyList()))
+    val operator = OPERATORS.firstOrNull { it.opCode == state.opCode }
+        ?: throw UnknownOperatorException(state.opCode, state.pc)
+    return evalProgram(operator(state))
 }
 
 private val OPERATORS = listOf(
@@ -26,8 +28,9 @@ private val OPERATORS = listOf(
         val opResult = state.opVal(1) * state.opVal(2)
         state.updateMemory(state.op(3), opResult)
     },
-    simpleOperator(3, 1) { state ->
-        state.readValue(state.op(1))
+    Operator(3, 1) { state ->
+        val newState = state.readValue(state.op(1))
+        Pair(newState, newState.status == ProgramStatus.Running)
     },
     simpleOperator(4, 1) { state ->
         state.writeValue(state.opVal(1))
@@ -83,18 +86,24 @@ data class ProgramState(
     val pc: Int,
     val inputs: List<Int>,
     val output: List<Int>,
-    val terminated: Boolean = false
+    val status: ProgramStatus = ProgramStatus.Running
 ) {
 
     val opCode: Int
         get() = memory[pc] % 100
 
     fun updateMemory(address: Int, value: Int) = copy(memory = memory.withUpdatedValue(address, value))
-    fun terminate() = copy(terminated = true)
+    fun terminate() = copy(status = ProgramStatus.Terminated)
+    fun suspend() = copy(status = ProgramStatus.Suspended)
     fun advancePc(steps: Int) = copy(pc = pc + steps)
     fun setPc(address: Int) = copy(pc = address)
-    fun readValue(targetAddress: Int) =
-        copy(memory = memory.withUpdatedValue(targetAddress, inputs.first()), inputs = inputs.drop(1))
+    fun readValue(targetAddress: Int): ProgramState {
+        if (inputs.isEmpty()) {
+            return suspend()
+        }
+        val input = inputs.first()
+        return copy(memory = memory.withUpdatedValue(targetAddress, input), inputs = inputs.drop(1))
+    }
 
     fun writeValue(value: Int) =
         copy(output = output + value)
@@ -124,4 +133,8 @@ data class ProgramState(
 
 private class UnknownOperatorException(operator: Int, position: Int) : Throwable() {
     override val message = "Unknown operator ($operator) at position $position"
+}
+
+enum class ProgramStatus {
+    Running, Suspended, Terminated
 }
